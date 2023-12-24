@@ -8,8 +8,8 @@ test -d ./FILE || mkdir ./FILE
 test -d ./DSC || mkdir ./DSC
 
 # delete old dir
-rm -rf ./FILE/`date +%Y%m%d -d'30 day ago'`*
-rm -rf ./DSC/`date +%Y%m%d -d'30 day ago'`*
+rm -rf ./FILE/`date +%Y%m%d -d'7 day ago'`*
+rm -rf ./DSC/`date +%Y%m%d -d'7 day ago'`*
 
 FILE_DATE=`date +%Y%m%d%H%M`
 OLD_FILE_DATE=`ls -ltr ./FILE/ |tail -n1 |awk '{print $9}'`
