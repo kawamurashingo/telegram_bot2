@@ -1,11 +1,11 @@
 # Google Calender Notification to Telegram
 Retrieve Google Calendar appointments and notify Telegram groups
 
-# Requirement
+# Requirement (Dockerfile)
 * Rocky Linux 8.5
 * Python > 3.6.8
 
-# Installation
+## Installation
 ```
 sudo yum update
 sudo yum install epel-release
