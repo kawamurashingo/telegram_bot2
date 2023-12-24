@@ -59,7 +59,7 @@ This guide details the steps to set up a Docker container running `pannakoota/te
   ```
 
 ### Step 5: Edit Configurations
-- Navigate to the `telegram_bot` directory:
+- Navigate to the `telegram_bot2` directory:
   ```
   cd telegram_bot2
   ```
