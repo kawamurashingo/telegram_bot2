@@ -30,10 +30,10 @@ sudo reboot
 # Usage
 ```
 # docker
-docker run -i -t pannakoota/rockylinux /bin/bash
-
+docker run -i -t pannakoota/telegram_bot2 /bin/bash
+or
 # git clone
-git clone https://github.com/kawamurashingo/telegram_bot.git
+git clone https://github.com/kawamurashingo/telegram_bot2.git
 
 # get telegram group id
 BOT_ID="XXXXXXX"
@@ -44,8 +44,8 @@ curl -s -X GET https://api.telegram.org/bot${BOT_ID}/getUpdates | jq -r '.result
 https://api.telegram.org/bot######/getUpdates
 
 
-# edit {SHEET NAME} in spredsheet_client.py and  spredsheet_member.py 
-cd ./telegram_bot
+# edit {SHEET NAME} in spredsheet_client.py(default "client") and spredsheet_member.py(default "member")
+cd ./telegram_bot2
 #vi spreadsheet_client.py
 #vi spreadsheet_member.py
 
@@ -56,14 +56,14 @@ vi get_events.py
 vi credentials.json
 
 # edit env of BOT_ID
-vi ./telegram.sh
+vi ./main.sh
 
 # run
-chmod 755 ./telegram.sh
-sh ./telegram.sh
+chmod 755 ./main.sh
+sh ./main.sh
 
 # set cron
-*/10 8-23 * * * sh /home/xxxx/telegram_bot/telegram.sh
+*/10 8-23 * * * sh /home/xxxx/telegram_bot2/main.sh
 
 ```
 
