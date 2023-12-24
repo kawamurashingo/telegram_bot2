@@ -38,8 +38,8 @@ python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e
 python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
 
 # duplication check
-cat client |awk -F',' '{print $1}' |sort |uniq -d | grep -P "\D" && exit 3
-cat member |awk -F',' '{print $1}' |sort |uniq -d | grep -P "\D" && exit 4
+cat client | awk -F',' '{print $1}' | sort | uniq -d | grep '[^0-9]' && exit 3
+cat member | awk -F',' '{print $1}' | sort | uniq -d | grep '[^0-9]' && exit 4
 
 while read line
 do
