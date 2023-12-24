@@ -19,6 +19,7 @@ ENV LANG="ja_JP.UTF-8" \
     LC_ALL="ja_JP.UTF-8"
 
 RUN git clone https://github.com/kawamurashingo/telegram_bot2
+RUN chmod 775 /telegram_bot2/main.sh
 RUN chmod 775 /telegram_bot2/Today/telegram.sh
 RUN chmod 775 /telegram_bot2/Nextday/telegram.sh
 RUN /usr/bin/crontab /telegram_bot2/crontab.txt
