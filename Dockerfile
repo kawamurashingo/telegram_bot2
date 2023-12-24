@@ -22,6 +22,8 @@ RUN git clone https://github.com/kawamurashingo/telegram_bot2
 RUN chmod 775 /telegram_bot2/main.sh
 RUN chmod 775 /telegram_bot2/Today/telegram.sh
 RUN chmod 775 /telegram_bot2/Nextday/telegram.sh
+RUN chmod 775 /telegram_bot2/logrotate.sh
+
 RUN /usr/bin/crontab /telegram_bot2/crontab.txt
 
 CMD crond && tail -f /dev/null
