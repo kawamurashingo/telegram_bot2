@@ -1,16 +1,23 @@
-# docker pull
-docker pull pannakoota/telegram_bot
+<GCP 側作業>
+#gcp compute engine Container-Optimized OS で起動
+pannakoota/telegram_bot2を選択
 
-# docker run
-#docker container rm telegram
+再起動ポリシー　削除しない
 
-docker run --name telegram -d --log-opt max-size=10m --log-opt max-file=3 pannakoota/telegram_bot
+kawamurashingo@instance-1 ~ $ docker ps
+CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+66439db0f7bf pannakoota/telegram_bot "/bin/sh -c 'crond &…" 42 seconds ago Up 37 seconds klt-instance-1-lglt
+kawamurashingo@instance-1 ~ $ 
 
-docker ps
+docker exec -it 66439db0f7bf /bin/bash
 
+#docker に入って設定
+ps -ef |grep cron
+# cron 起動確認
 
-# docker exec
-docker exec -it telegram /bin/bash
+crontab -l
+# 確認
+
 
 cd telegram_bot
 vi credentials.json
@@ -37,5 +44,10 @@ docker exec -it telegram_custom /bin/bash
 #VM再起動されたときも起動してくるように自動起動設定
 docker update --restart=always telegram_custom
 docker inspect -f "{{.Name}} {{.HostConfig.RestartPolicy.Name}}" $(docker ps -aq) | grep always
+
+# reboot test
+sudo reboot
+
+# 起動後オリジナルのcronはコメントアウトされていて、customは外れてること確認
 
 
