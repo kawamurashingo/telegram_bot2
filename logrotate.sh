@@ -1,6 +1,6 @@
 #!/bin/bash
 LOG_FILE="/telegram_bot2/cron.log"
-MAX_SIZE=102400 # 100KB
+MAX_SIZE=$((10240 * 1024)) # 10MB
 MAX_FILES=3
 
 # ログファイルが最大サイズを超えているかチェック
