@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# telegram bot id
-BOT_ID="XXXX:XXXX"
+## telegram bot id
+#BOT_ID="XXXX:XXXX"
 
 DIR=`dirname $0`
 
@@ -18,11 +18,11 @@ FILE_DATE=`date +%Y%m%d%H%M`
 OLD_FILE_DATE=`ls -ltr ./FILE/ |tail -n1 |awk '{print $9}'`
 
 # get google calender schedule
-python3 get_events.py | sed -e 's:<html-blob>::g' -e 's:</html-blob>::g' -e "s:<br>:\n:g" > schedule.txt
+python3 ../get_events.py | sed -e 's:<html-blob>::g' -e 's:</html-blob>::g' -e "s:<br>:\n:g" > schedule.txt
 sed -i -E 's@^.*(https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]).*$@\1@' schedule.txt
 
 # make text
-sed -e "s/DATE/`date +%Y-%m-%d`/" reverse.sed > make_reverse.sed
+sed -e "s/DATE/`date +%Y-%m-%d`/" ../reverse.sed > make_reverse.sed
 sed -n "/`date +%Y-%m-%d`/,/^$/p" schedule.txt  | sed -f make_reverse.sed | sed -e "s:`date +%Y-%m-%d`:`date +%m/%d`:" -e "s/~.*//" > make.txt
 
 test -f make.txt.`date +%Y%m%d` && diff make.txt make.txt.`date +%Y%m%d` && exit 1
@@ -32,10 +32,10 @@ test -f make.txt.`date +%Y%m%d` && diff make.txt make.txt.`date +%Y%m%d` | grep 
 test -d ./FILE/${FILE_DATE} || mkdir -p ./FILE/${FILE_DATE}
 
 # get client
-python3 spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client
+python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client
 
 # get member
-python3 spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
+python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
 
 # duplication check
 cat client |awk -F',' '{print $1}' |sort |uniq -d | grep -P "\D" && exit 3
