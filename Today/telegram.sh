@@ -11,8 +11,8 @@ test -d ./FILE || mkdir ./FILE
 test -d ./DSC || mkdir ./DSC
 
 # delete old dir
-rm -rf ./FILE/`date +%Y%m%d -d'30 day ago'`*
-rm -rf ./DSC/`date +%Y%m%d -d'30 day ago'`*
+rm -rf ./FILE/$(date -D %Y%m%d -d "$(date +%Y%m%d) - 30 days")*
+rm -rf ./DSC/$(date -D %Y%m%d -d "$(date +%Y%m%d) - 30 days")*
 
 FILE_DATE=`date +%Y%m%d%H%M`
 OLD_FILE_DATE=`ls -ltr ./FILE/ |tail -n1 |awk '{print $9}'`
@@ -105,12 +105,9 @@ echo ""
 
 done
 
-# rm -rf ./FILE/`date +%Y%m%d -d'30 day ago'`*
-# rm -rf ./DSC/`date +%Y%m%d -d'30 day ago'`*
-
 cp -f make.txt make.txt.`date +%Y%m%d`
 
-test -f make.txt.`date +%Y%m%d -d'1 day ago'` && rm -f make.txt.`date +%Y%m%d -d'1 day ago'`
+test -f make.txt.$(date -D %Y%m%d -d "$(date +%Y%m%d) - 1 days") && rm -f make.txt.$(date -D %Y%m%d -d "$(date +%Y%m%d) - 1 days")
 
 rm -f ./client
 rm -f ./member
