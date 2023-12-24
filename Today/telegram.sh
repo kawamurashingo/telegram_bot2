@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# telegram bot id
-# BOT_ID="XXXX:XXXX"
-
 DIR=`dirname $0`
 
 cd ${DIR}
@@ -32,8 +29,8 @@ test -f make.txt.`date +%Y%m%d` && diff make.txt make.txt.`date +%Y%m%d` | grep 
 test -d ./FILE/${FILE_DATE} || mkdir -p ./FILE/${FILE_DATE}
 
 # get client
-#python3 spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client
-python3 spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client_get
+#python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client
+python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client_get
 
 if [ -s client_get ]; then
     # client_getの内容がある場合、clientにコピー
@@ -44,8 +41,8 @@ else
 fi
 
 # get member
-#python3 spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
-python3 spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member_get
+#python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
+python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member_get
 
 if [ -s member_get ]; then
     # member_getの内容がある場合、memberにコピー
@@ -123,14 +120,8 @@ echo ""
 
 done
 
-# rm -rf ./FILE/`date +%Y%m%d -d'30 day ago'`*
-# rm -rf ./DSC/`date +%Y%m%d -d'30 day ago'`*
-
 cp -f make.txt make.txt.`date +%Y%m%d`
 
 test -f make.txt.`date +%Y%m%d -d'1 day ago'` && rm -f make.txt.`date +%Y%m%d -d'1 day ago'`
-
-# rm -f ./client
-# rm -f ./member
 
 exit 0
