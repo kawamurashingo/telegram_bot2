@@ -32,10 +32,28 @@ test -f make.txt.`date +%Y%m%d` && diff make.txt make.txt.`date +%Y%m%d` | grep 
 test -d ./FILE/${FILE_DATE} || mkdir -p ./FILE/${FILE_DATE}
 
 # get client
-python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client
+#python3 spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client
+python3 spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client_get
+
+if [ -s client_get ]; then
+    # client_getの内容がある場合、clientにコピー
+    cp -f client_get client
+    echo "ファイルがコピーされました。"
+else
+    echo "client_getは空です。"
+fi
 
 # get member
-python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
+#python3 spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
+python3 spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member_get
+
+if [ -s member_get ]; then
+    # member_getの内容がある場合、memberにコピー
+    cp -f member_get member
+    echo "ファイルがコピーされました。"
+else
+    echo "member_getは空です。"
+fi
 
 # duplication check
 cat client |awk -F',' '{print $1}' |sort |uniq -d | grep -P "\D" && exit 3
@@ -112,7 +130,7 @@ cp -f make.txt make.txt.`date +%Y%m%d`
 
 test -f make.txt.`date +%Y%m%d -d'1 day ago'` && rm -f make.txt.`date +%Y%m%d -d'1 day ago'`
 
-rm -f ./client
-rm -f ./member
+# rm -f ./client
+# rm -f ./member
 
 exit 0
