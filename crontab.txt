@@ -1,0 +1,4 @@
+#*/10 8-23 * * * /telegram_bot2/Today/telegram.sh >> /telegram_bot2/Today/cron.log 2>&1
+#*/10 8-23 * * * sleep 60 ; /telegram_bot2/Nextday/telegram.sh >> /telegram_bot2/Nextday/cron.log 2>&1
+#0 1 * * * /telegram_bot2/Today/logrotate.sh
+#0 1 * * * /telegram_bot2/Nextday/logrotate.sh

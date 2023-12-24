@@ -1,0 +1,41 @@
+# docker pull
+docker pull pannakoota/telegram_bot
+
+# docker run
+#docker container rm telegram
+
+docker run --name telegram -d --log-opt max-size=10m --log-opt max-file=3 pannakoota/telegram_bot
+
+docker ps
+
+
+# docker exec
+docker exec -it telegram /bin/bash
+
+cd telegram_bot
+vi credentials.json
+vi get_events.py
+vi telegram.sh
+
+crontab -e
+# comment in
+
+exit
+
+# イメージをVM側に保存
+docker ps 
+docker commit 1ac848cc1026 telegram_custom
+
+# オリジナルの方のコンテナを止める
+docker kill 1ac848cc1026
+
+# カスタマイズしたコンテナを起動
+docker run --name telegram_custom -d telegram_custom
+docker exec -it telegram_custom /bin/bash
+
+
+#VM再起動されたときも起動してくるように自動起動設定
+docker update --restart=always telegram_custom
+docker inspect -f "{{.Name}} {{.HostConfig.RestartPolicy.Name}}" $(docker ps -aq) | grep always
+
+
