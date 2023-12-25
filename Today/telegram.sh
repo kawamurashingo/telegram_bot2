@@ -7,10 +7,6 @@ cd ${DIR}
 test -d ./FILE || mkdir ./FILE
 test -d ./DSC || mkdir ./DSC
 
-# delete old dir
-rm -rf ./FILE/`date +%Y%m%d -d'7 day ago'`*
-rm -rf ./DSC/`date +%Y%m%d -d'7 day ago'`*
-
 FILE_DATE=`date +%Y%m%d%H%M`
 OLD_FILE_DATE=`ls -ltr ./FILE/ |tail -n1 |awk '{print $9}'`
 
@@ -29,27 +25,23 @@ test -f make.txt.`date +%Y%m%d` && diff make.txt make.txt.`date +%Y%m%d` | grep 
 test -d ./FILE/${FILE_DATE} || mkdir -p ./FILE/${FILE_DATE}
 
 # get client
-#python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client
 python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > client_get
 
 if [ -s client_get ]; then
-    # client_getの内容がある場合、clientにコピー
     cp -f client_get client
-    echo "ファイルがコピーされました。"
+    echo "The file has been copied."
 else
-    echo "client_getは空です。"
+    echo "client_get is empty."
 fi
 
 # get member
-#python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member
 python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e "s/'//g" -e "s/ //g" > member_get
 
 if [ -s member_get ]; then
-    # member_getの内容がある場合、memberにコピー
     cp -f member_get member
-    echo "ファイルがコピーされました。"
+    echo "The file has been copied."
 else
-    echo "member_getは空です。"
+    echo "member_get is empty."
 fi
 
 # duplication check
@@ -120,8 +112,12 @@ echo ""
 
 done
 
-cp -f make.txt make.txt.`date +%Y%m%d`
+# delete old dir
+rm -rf ./FILE/`date +%Y%m%d -d'7 day ago'`*
+rm -rf ./DSC/`date +%Y%m%d -d'7 day ago'`*
 
+# Final cleanup
+cp -f make.txt make.txt.`date +%Y%m%d`
 test -f make.txt.`date +%Y%m%d -d'1 day ago'` && rm -f make.txt.`date +%Y%m%d -d'1 day ago'`
 
 exit 0
