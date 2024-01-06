@@ -81,7 +81,9 @@ This guide details the steps to set up a Docker container running `pannakoota/te
 ### Step 8: Stop Original Container
 - Stop the original Docker container:
   ```
-  docker kill [CONTAINER ID]
+  docker stop [CONTAINER ID]
+  ## これをやらないと、crondのプロセスが溜まり続けてdocker_customのプロセスが変な状態になる
+  ## OCI runtime exec failed: exec failed: unable to start container process: read init-p: connection reset by peer: unknown
   ```
 
 ### Step 9: Launch Custom Container
