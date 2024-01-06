@@ -151,6 +151,82 @@ sh ./main.sh
 
 ```
 
+# docker stop/start
+Systemd Timerを使用して毎朝7時に特定のDockerコンテナを再起動するための手順を以下に示します。このプロセスは、基本的には2つのファイルを作成し、Systemdにこれらのファイルを認識させることで構成されます。
+
+1. **Serviceファイルの作成**: まず、Dockerコンテナを停止して再起動するコマンドを実行するSystemdのサービスファイルを作成します。
+
+2. **Timerファイルの作成**: 次に、このサービスをいつ実行するかを定義するタイマーファイルを作成します。
+
+### Serviceファイルの作成
+
+`/etc/systemd/system` ディレクトリ内にサービスファイル（例：`docker-restart.service`）を作成します。
+
+```bash
+sudo nano /etc/systemd/system/docker-restart.service
+```
+
+以下の内容をファイルに追加します。
+
+```ini
+[Unit]
+Description=Docker Restart Service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker stop telegram_custom
+ExecStart=/usr/bin/docker start telegram_custom
+```
+
+### Timerファイルの作成
+
+次に、同じディレクトリ内にタイマーファイル（例：`docker-restart.timer`）を作成します。
+
+```bash
+sudo nano /etc/systemd/system/docker-restart.timer
+```
+
+以下の内容をファイルに追加します。
+
+```ini
+[Unit]
+Description=Run Docker Restart Service at 07:00 daily
+
+[Timer]
+OnCalendar=*-*-* 07:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+### Systemdにサービスとタイマーを登録
+
+作成したサービスとタイマーをSystemdに登録します。
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start docker-restart.timer
+sudo systemctl enable docker-restart.timer
+```
+
+これで、毎朝7時に`docker stop telegram_custom` と `docker start telegram_custom` が実行されるようになります。
+
+### 確認
+
+タイマーが正しく設定されているかを確認するには、以下のコマンドを実行します。
+
+```bash
+systemctl list-timers
+```
+
+これにより、次にタイマーがトリガーされる時間やその他の詳細が表示されます。
+
+### 注意点
+
+- このプロセスはContainer-Optimized OSで動作することを前提としています。他のLinuxディストリビューションではファイルパスやコマンドが異なる場合があります。
+- Systemdのタイマーは、非常に柔軟で強力ですが、構成が間違っていると予期しない動作をする可能性があります。したがって、実際の環境で使用する前に、テスト環境で十分に検証することをお勧めします。
+
 # Note
 docker image
  - <https://hub.docker.com/r/pannakoota/telegram_bot2>
