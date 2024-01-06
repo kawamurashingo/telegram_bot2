@@ -89,7 +89,8 @@ This guide details the steps to set up a Docker container running `pannakoota/te
 ### Step 9: Launch Custom Container
 - Launch the customized Docker container:
   ```
-  docker run --name telegram_custom -d telegram_custom
+  # docker run --name telegram_custom -d telegram_custom
+  docker run --name telegram_custom -d --log-opt max-size=10m --log-opt max-file=3 telegram_custom
   ```
 
 ### Step 10: Set Container to Auto-restart
