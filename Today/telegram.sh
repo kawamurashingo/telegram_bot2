@@ -11,8 +11,16 @@ FILE_DATE=`date +%Y%m%d%H%M`
 OLD_FILE_DATE=`ls -ltr ./FILE/ |tail -n1 |awk '{print $9}'`
 
 # get google calender schedule
-python3 ../get_events.py | sed -e 's:<html-blob>::g' -e 's:</html-blob>::g' -e "s:<br>:\n:g" > schedule.txt
-sed -i -E 's@^.*(https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]).*$@\1@' schedule.txt
+#python3 ../get_events.py | sed -e 's:<html-blob>::g' -e 's:</html-blob>::g' -e "s:<br>:\n:g" > schedule.txt
+#sed -i -E 's@^.*(https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]).*$@\1@' schedule.txt
+python3 ../get_events.py | sed -e 's:<html-blob>::g' -e 's:</html-blob>::g' -e "s:<br>:\n:g" > schedule_get
+
+if [ -s schedule_get ]; then
+    cp -f schedule_get schedule.txt
+    echo "schedule_get has been copied"
+else
+    echo "schedule.txt is empty"
+fi
 
 # make text
 sed -e "s/DATE/`date +%Y-%m-%d`/" ../reverse.sed > make_reverse.sed
@@ -29,7 +37,7 @@ python3 ../spreadsheet_client.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e
 
 if [ -s client_get ]; then
     cp -f client_get client
-    echo "The file has been copied."
+    echo "client_get has been copied."
 else
     echo "client_get is empty."
 fi
@@ -39,7 +47,7 @@ python3 ../spreadsheet_member.py |sed -e 's/],/\n/g' -e 's/]//g' -e 's/\[//g' -e
 
 if [ -s member_get ]; then
     cp -f member_get member
-    echo "The file has been copied."
+    echo "member_get has been copied."
 else
     echo "member_get is empty."
 fi
