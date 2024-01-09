@@ -19,7 +19,7 @@ if [ -s schedule_get ]; then
     cp -f schedule_get schedule.txt
     echo "schedule_get has been copied"
 else
-    echo "schedule.txt is empty"
+    echo "schedule_get is empty"
 fi
 
 # make text
